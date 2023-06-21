@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add Product</h1>
+      <form id="createForm">
+        <div class="mb-3">
+          <label for="nameProduk" class="form-label">Nama Produk</label>
+          <input type="text" class="form-control" id="nameProduk" required />
+        </div>
+        <div class="mb-3">
+          <label for="Keterangan" class="form-label">Keterangan</label>
+          <input type="text" class="form-control" id="Keterangan" required />
+        </div>
+        <div class="mb-3">
+          <label for="harga" class="form-label">Harga</label>
+          <input type="number" class="form-control" id="harga" required />
+        </div>
+        <div class="mb-3">
+          <label for="jumlah" class="form-label">Jumlah</label>
+          <input type="number" class="form-control" id="jumlah" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      const createForm = document.getElementById('createForm');
+
+      createForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nameProduk = document.getElementById('nameProduk').value;
+        const Keterangan = document.getElementById('Keterangan').value;
+        const harga = parseInt(document.getElementById('harga').value);
+        const jumlah = parseInt(document.getElementById('jumlah').value);
+
+        const payload = {
+          name_produk: nameProduk,
+          Keterangan: Keterangan,
+          harga: harga,
+          jumlah: jumlah,
+        };
+
+        fetch('/books', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            // You can handle the success response here
+            // For example, redirect to the main page or display a success message
+            window.location.href = '/home';
+          })
+          .catch((error) => console.error('Error:', error));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Update Product</h1>
+      <form id="updateForm">
+        <div class="mb-3">
+          <label for="nameInput" class="form-label">Name</label>
+          <input type="text" class="form-control" id="nameInput" required />
+        </div>
+        <div class="mb-3">
+          <label for="authorInput" class="form-label">Author</label>
+          <input type="text" class="form-control" id="authorInput" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+
+    <script>
+      const updateForm = document.getElementById('updateForm');
+
+      updateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        const nameInput = document.getElementById('nameInput').value;
+        const authorInput = document.getElementById('authorInput').value;
+
+        const payload = {
+          id: id,
+          Name_book: nameInput,
+          Author: authorInput,
+        };
+
+        fetch(`/books/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            // You can handle the success response here
+            // For example, redirect to the main page or display a success message
+            window.location.href = '/home';
+          })
+          .catch((error) => console.error('Error:', error));
+      });
+    </script>
+  </body>
+</html>
